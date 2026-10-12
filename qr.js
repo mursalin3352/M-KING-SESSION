@@ -2,6 +2,7 @@ const { makeid } = require('./gen-id');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const pino = require('pino');
 const sessions = require('./sessions');
 const metrics = require('./metrics');
@@ -17,9 +18,8 @@ const {
 // optional server-side QR->PNG generator (best-effort)
 let qrcodeLib = null;
 try {
-  qrcodeLib = require('qrcode'); // installs: npm i qrcode
+  qrcodeLib = require('qrcode');
 } catch (err) {
-  // not installed — we will still return the raw qr string
   qrcodeLib = null;
 }
 
@@ -40,18 +40,19 @@ function cleanup(key, tempDir) {
 router.post('/start', async (req, res) => {
   metrics.increment('qrStarts');
   const key = makeid(10);
-  const tempDir = path.join(__dirname, 'temp', key);
+  const baseTemp = path.join(os.tmpdir(), 'mking-temp');
+  if (!fs.existsSync(baseTemp)) fs.mkdirSync(baseTemp, { recursive: true });
+  const tempDir = path.join(baseTemp, key);
+  if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
 
   qrStore.set(key, { status: 'pending', qr: null, qrDataUrl: null, message: null });
 
-  // Auto-expire
   setTimeout(() => {
     if (qrStore.has(key)) cleanup(key, tempDir);
   }, QR_TTL_MS);
 
   res.json({ sessionKey: key });
 
-  // Run connection in background
   startQRSession(key, tempDir).catch((err) => {
     metrics.increment('errors');
     const entry = qrStore.get(key);
@@ -66,7 +67,6 @@ router.get('/poll/:key', (req, res) => {
   if (!entry) return res.json({ status: 'expired' });
 
   if (entry.status === 'done') {
-    // Also return session data
     const sess = sessions.get(key);
     return res.json({
       status: 'done',
@@ -75,7 +75,6 @@ router.get('/poll/:key', (req, res) => {
     });
   }
 
-  // Return full entry including qrDataUrl when available
   return res.json(entry);
 });
 
@@ -103,13 +102,10 @@ async function startQRSession(key, tempDir) {
 
   sock.ev.on('creds.update', saveCreds);
 
-  // Capture QR code string
   sock.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect, qr } = update;
 
     if (qr) {
-      // Coerce QR payload to a trimmed string to ensure frontend always receives a clean value.
-      // Sometimes the library may emit a Buffer or include whitespace/newlines.
       let qrStr = null;
       try {
         if (typeof qr === 'string') qrStr = qr.trim();
@@ -119,14 +115,11 @@ async function startQRSession(key, tempDir) {
         qrStr = null;
       }
 
-      // Attempt to generate a PNG Data URL for easier frontend rendering.
-      // This is optional — if `qrcode` isn't installed we still return the raw qr string.
       if (qrStr && qrcodeLib) {
         try {
           const dataUrl = await qrcodeLib.toDataURL(qrStr, { width: 300, margin: 1 });
           qrStore.set(key, { status: 'qr', qr: qrStr, qrDataUrl: dataUrl, message: null });
         } catch (err) {
-          // fallback to raw string only
           qrStore.set(key, { status: 'qr', qr: qrStr, qrDataUrl: null, message: null });
         }
       } else {
@@ -145,33 +138,30 @@ async function startQRSession(key, tempDir) {
         const credsPath = path.join(tempDir, 'creds.json');
         const sessionData = fs.readFileSync(credsPath, 'utf8');
         const encoded = Buffer.from(sessionData).toString('base64');
-        const decoded = sessionData; // raw JSON string
+        const decoded = sessionData;
 
-        // Store for download
         sessions.set(key, encoded, decoded);
         metrics.increment('sessionsCreated');
 
-        // Mark done
         qrStore.set(key, { status: 'done', qr: null, qrDataUrl: null, message: null });
 
         await sock.sendMessage(sock.user.id, {
-          text: `🤖 *DARATECH BOT V2 — SESSION_ID*\n\n${encoded}\n\nPaste as SESSION_ID= in your bot's .env file.\n\n⚠️ Never share it.`
+          text: `👑 *M-KING BOT V1 — SESSION_ID*\n\n${encoded}\n\nPaste as SESSION_ID= in your bot's .env file.\nOwner: Mursalin King\n\n⚠️ Never share it.`
         });
         await sock.sendMessage(sock.user.id, {
           document: Buffer.from(decoded, 'utf8'),
           mimetype: 'application/json',
           fileName: 'creds.json',
-          caption: '📄 creds.json — keep this file private.'
+          caption: '📄 M-KING creds.json — keep this file private.'
         });
 
-        console.log(`✅ QR session created for ${sock.user.id}`);
+        console.log(`✅ M-KING QR session created for ${sock.user.id}`);
       } catch (err) {
         console.error('QR session send error:', err.message);
         qrStore.set(key, { status: 'error', qr: null, qrDataUrl: null, message: 'Session created but send failed.' });
       } finally {
         await delay(1500);
         try { await sock.ws.close(); } catch (_) {}
-        // keep tempDir briefly for download, cleanup handled by sessions TTL
         setTimeout(() => cleanup(key, tempDir), QR_TTL_MS);
       }
 
@@ -181,7 +171,6 @@ async function startQRSession(key, tempDir) {
         cleanup(key, tempDir);
       } else if (!sessionDone) {
         await delay(2000);
-        // QR expired — let client know they need to restart
         const entry = qrStore.get(key);
         if (entry && entry.status !== 'done') {
           qrStore.set(key, { status: 'pending', qr: null, qrDataUrl: null, message: null });
