@@ -2,6 +2,7 @@ const { makeid } = require('./gen-id');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const pino = require('pino');
 const sessions = require('./sessions');
 const metrics = require('./metrics');
@@ -34,7 +35,13 @@ async function generatePairingCode(req, res) {
   metrics.increment('pairStarts');
   const id = makeid();
   const sessionKey = makeid(10);
-  const tempDir = path.join(__dirname, 'temp', id);
+  const tempDir = path.join(os.tmpdir(), 'mking-temp', id);
+  
+  // FIXED: Make sure /tmp/mking-temp exists
+  const baseTemp = path.join(os.tmpdir(), 'mking-temp');
+  if (!fs.existsSync(baseTemp)) fs.mkdirSync(baseTemp, { recursive: true });
+  if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir, { recursive: true });
+
   const phoneNumber = (req.query.number || req.body?.phoneNumber || req.body?.number || '').replace(/\D/g, '');
 
   if (!phoneNumber || phoneNumber.length < 7) {
@@ -89,16 +96,16 @@ async function generatePairingCode(req, res) {
           pairStatus.set(sessionKey, { done: true, error: null });
 
           await sock.sendMessage(sock.user.id, {
-            text: `🤖 *DARATECH BOT V2 — SESSION_ID*\n\n${encoded}\n\nPaste as SESSION_ID= in your bot's .env file.\n\n⚠️ Never share it.`
+            text: `👑 *M-KING BOT V1 — SESSION_ID*\n\n${encoded}\n\nPaste as SESSION_ID= in your bot's .env file.\nOwner: Mursalin King\n\n⚠️ Never share it.`
           });
           await sock.sendMessage(sock.user.id, {
             document: Buffer.from(decoded, 'utf8'),
             mimetype: 'application/json',
             fileName: 'creds.json',
-            caption: '📄 creds.json — keep this file private.'
+            caption: '📄 M-KING creds.json — keep this file private.'
           });
 
-          console.log(`✅ Pair session created for ${sock.user.id}`);
+          console.log(`✅ M-KING Pair session created for ${sock.user.id}`);
         } catch (err) {
           metrics.increment('errors');
           console.error('Session send error:', err.message);
