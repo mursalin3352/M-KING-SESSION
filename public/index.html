@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DARATECH BOT V2 — Session Generator</title>
-  <meta name="description" content="Securely generate your DARATECH BOT V2 WhatsApp session ID." />
-  <meta name="application-name" content="DARATECH BOT V2" />
+  <title>M-KING BOT V1 — Session Generator</title>
+  <meta name="description" content="Securely generate your M-KING BOT V1 WhatsApp session ID." />
+  <meta name="application-name" content="M-KING BOT V1" />
   <meta name="theme-color" content="#10251e" />
-  <meta name="apple-mobile-web-app-title" content="DARATECH BOT V2" />
+  <meta name="apple-mobile-web-app-title" content="M-KING BOT V1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
@@ -15,19 +15,19 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="DARATECH BOT V2" />
-  <meta property="og:title" content="DARATECH BOT V2 — Session Generator" />
-  <meta property="og:description" content="Securely generate your DARATECH BOT V2 WhatsApp session ID with QR or Pair Code." />
-  <meta property="og:image" content="/assets/daratech-og.jpg" />
-  <meta property="og:image:alt" content="DARATECH Bot robot logo" />
+  <meta property="og:site_name" content="M-KING BOT V1" />
+  <meta property="og:title" content="M-KING BOT V1 — Session Generator" />
+  <meta property="og:description" content="Securely generate your M-KING BOT V1 WhatsApp session ID with QR or Pair Code." />
+  <meta property="og:image" content="/assets/mking-og.jpg" />
+  <meta property="og:image:alt" content="M-KING Bot V1 - Owner Mursalin King" />
   <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="720" />
-  <meta property="og:image:height" content="720" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="DARATECH BOT V2 — Session Generator" />
-  <meta name="twitter:description" content="Securely generate your DARATECH BOT V2 WhatsApp session ID." />
-  <meta name="twitter:image" content="/assets/daratech-og.jpg" />
-  <meta name="twitter:image:alt" content="DARATECH Bot robot logo" />
+  <meta name="twitter:title" content="M-KING BOT V1 — Session Generator" />
+  <meta name="twitter:description" content="Securely generate your M-KING BOT V1 WhatsApp session ID." />
+  <meta name="twitter:image" content="/assets/mking-og.jpg" />
+  <meta name="twitter:image:alt" content="M-KING Bot V1 - Owner Mursalin King" />
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     :root {
@@ -42,7 +42,7 @@
       --lime: #b9f46d;
       --orange: #ffb454;
       --danger: #c94343;
-      --shadow: 0 24px 70px rgba(28, 69, 52, .12);
+      --shadow: 0 24px 70px rgba(28, 69, 52,.12);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { background: var(--paper); }
@@ -54,145 +54,145 @@
     }
     button, input, textarea { font: inherit; }
     button { cursor: pointer; }
-    .site-shell { min-height: 100vh; overflow: hidden; position: relative; background: var(--paper); }
-    .site-shell::before, .site-shell::after {
+   .site-shell { min-height: 100vh; overflow: hidden; position: relative; background: var(--paper); }
+   .site-shell::before,.site-shell::after {
       content: ""; position: fixed; width: 380px; height: 380px; border-radius: 50%; filter: blur(4px); pointer-events: none; z-index: -1;
     }
-    .site-shell::before { background: #d9f5df; top: -170px; right: -100px; }
-    .site-shell::after { background: #e8f0cf; bottom: -210px; left: -160px; }
-    .topbar {
+   .site-shell::before { background: #d9f5df; top: -170px; right: -100px; }
+   .site-shell::after { background: #e8f0cf; bottom: -210px; left: -160px; }
+   .topbar {
       width: min(1180px, calc(100% - 44px)); margin: 0 auto; padding: 27px 0;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-    .brand-mark { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; overflow: hidden; background: var(--ink); color: var(--lime); font-weight: 900; letter-spacing: -2px; box-shadow: 0 8px 20px rgba(16,37,30,.18); }
-    .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
-    .brand-name { font-size: 15px; line-height: 1; font-weight: 900; letter-spacing: .14em; }
-    .brand-name strong { display: block; font: inherit; }
-    .brand-name span { display: block; margin-top: 5px; color: var(--green); font-size: 10px; letter-spacing: .22em; }
-    .top-actions { display: flex; align-items: center; gap: 9px; }
-    .utility-btn, .language-select { border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.72); color: var(--ink); font-size: 12px; font-weight: 800; padding: 9px 11px; }
-    .utility-btn:hover, .language-select:hover { border-color: var(--green); color: var(--green-dark); }
-    .language-select { cursor: pointer; }
-    .status-chip { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
+   .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+   .brand-mark { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; overflow: hidden; background: var(--ink); color: var(--lime); font-weight: 900; letter-spacing: -2px; box-shadow: 0 8px 20px rgba(16,37,30,.18); }
+   .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
+   .brand-name { font-size: 15px; line-height: 1; font-weight: 900; letter-spacing:.14em; }
+   .brand-name strong { display: block; font: inherit; }
+   .brand-name span { display: block; margin-top: 5px; color: var(--green); font-size: 10px; letter-spacing:.22em; }
+   .top-actions { display: flex; align-items: center; gap: 9px; }
+   .utility-btn,.language-select { border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.72); color: var(--ink); font-size: 12px; font-weight: 800; padding: 9px 11px; }
+   .utility-btn:hover,.language-select:hover { border-color: var(--green); color: var(--green-dark); }
+   .language-select { cursor: pointer; }
+   .status-chip { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
     body.dark { --ink: #e9f5ee; --muted: #9bb1a5; --paper: #0b1712; --card: rgba(18,35,27,.92); --line: #294438; --mint: #153a2a; --shadow: 0 24px 70px rgba(0,0,0,.25); }
-    body.dark .utility-btn, body.dark .language-select, body.dark .phone-field, body.dark .session-value { background: #10241a; color: var(--ink); }
-    body.dark .qr-stage { background: #10241a; border-color: #35664d; }
-    body.dark .qr-wrap, body.dark .session-box { background: #10241a; }
-    body.dark .session-value { border-color: var(--line); }
-    .content-section { max-width: 850px; margin-top: 58px; }
-    .content-section h2 { font-size: 26px; letter-spacing: -.05em; margin-bottom: 12px; }
-    .content-section > p { color: var(--muted); line-height: 1.65; font-size: 14px; }
-    .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
-    .guide-card { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
-    .guide-card b { color: var(--green-dark); display: block; margin-bottom: 7px; }
-    .guide-card p { color: var(--muted); font-size: 13px; line-height: 1.55; }
-    @media (max-width: 680px) { .guide-grid { grid-template-columns: 1fr; } }
-    .faq-list { display: grid; gap: 8px; margin-top: 18px; }
-    .faq-list details { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
-    .faq-list summary { cursor: pointer; font-size: 13px; font-weight: 900; }
-    .faq-list p { color: var(--muted); font-size: 13px; line-height: 1.6; padding-top: 10px; }
-    .timer { display: inline-flex; align-items: center; gap: 6px; margin-top: 15px; color: #9a661a; font-size: 12px; font-weight: 900; }
-    .retry-btn { display: none; margin-top: 14px; border: 0; background: transparent; color: var(--danger); font-size: 13px; font-weight: 900; }
-    .retry-btn.show { display: inline-block; }
-    .install-banner { display: none; align-items: center; justify-content: space-between; gap: 15px; max-width: 850px; margin-top: 20px; padding: 14px 16px; border: 1px solid #b8e8ca; border-radius: 14px; background: var(--mint); color: var(--green-dark); font-size: 13px; font-weight: 800; }
-    .install-banner.show { display: flex; }
-    .install-banner button { border: 0; border-radius: 9px; padding: 9px 12px; background: var(--green-dark); color: white; font-size: 12px; font-weight: 900; }
-    .status-panel { display: none; max-width: 850px; margin-top: 20px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
-    .status-panel.show { display: block; }
-    .status-panel strong { display: block; margin-bottom: 5px; }
-    .status-panel p { color: var(--muted); font-size: 13px; }
-    .status-panel.ok strong { color: var(--green-dark); }
-    .status-panel.fail strong { color: var(--danger); }
-    .env-copy { margin-top: 10px; }
-    .creds-head { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
-    .creds-value { min-height: 150px; font-size: 11px; }
-    .env-copy .backup-btn { margin-top: 0; }
-    .visibility-btn { float: right; border: 0; background: transparent; color: var(--green-dark); font-size: 11px; font-weight: 900; }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px #d8f3e4; }
-    .page { width: min(1180px, calc(100% - 44px)); margin: 0 auto; padding: 54px 0 74px; }
-    .hero { max-width: 710px; margin-bottom: 44px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green-dark); font-size: 11px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 18px; }
-    .eyebrow::before { content: ""; width: 25px; height: 2px; background: var(--green); }
-    h1 { max-width: 680px; font-size: clamp(38px, 6vw, 76px); line-height: .98; letter-spacing: -.075em; font-weight: 900; }
+    body.dark.utility-btn, body.dark.language-select, body.dark.phone-field, body.dark.session-value { background: #10241a; color: var(--ink); }
+    body.dark.qr-stage { background: #10241a; border-color: #35664d; }
+    body.dark.qr-wrap, body.dark.session-box { background: #10241a; }
+    body.dark.session-value { border-color: var(--line); }
+   .content-section { max-width: 850px; margin-top: 58px; }
+   .content-section h2 { font-size: 26px; letter-spacing: -.05em; margin-bottom: 12px; }
+   .content-section > p { color: var(--muted); line-height: 1.65; font-size: 14px; }
+   .guide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+   .guide-card { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+   .guide-card b { color: var(--green-dark); display: block; margin-bottom: 7px; }
+   .guide-card p { color: var(--muted); font-size: 13px; line-height: 1.55; }
+    @media (max-width: 680px) {.guide-grid { grid-template-columns: 1fr; } }
+   .faq-list { display: grid; gap: 8px; margin-top: 18px; }
+   .faq-list details { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+   .faq-list summary { cursor: pointer; font-size: 13px; font-weight: 900; }
+   .faq-list p { color: var(--muted); font-size: 13px; line-height: 1.6; padding-top: 10px; }
+   .timer { display: inline-flex; align-items: center; gap: 6px; margin-top: 15px; color: #9a661a; font-size: 12px; font-weight: 900; }
+   .retry-btn { display: none; margin-top: 14px; border: 0; background: transparent; color: var(--danger); font-size: 13px; font-weight: 900; }
+   .retry-btn.show { display: inline-block; }
+   .install-banner { display: none; align-items: center; justify-content: space-between; gap: 15px; max-width: 850px; margin-top: 20px; padding: 14px 16px; border: 1px solid #b8e8ca; border-radius: 14px; background: var(--mint); color: var(--green-dark); font-size: 13px; font-weight: 800; }
+   .install-banner.show { display: flex; }
+   .install-banner button { border: 0; border-radius: 9px; padding: 9px 12px; background: var(--green-dark); color: white; font-size: 12px; font-weight: 900; }
+   .status-panel { display: none; max-width: 850px; margin-top: 20px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+   .status-panel.show { display: block; }
+   .status-panel strong { display: block; margin-bottom: 5px; }
+   .status-panel p { color: var(--muted); font-size: 13px; }
+   .status-panel.ok strong { color: var(--green-dark); }
+   .status-panel.fail strong { color: var(--danger); }
+   .env-copy { margin-top: 10px; }
+   .creds-head { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+   .creds-value { min-height: 150px; font-size: 11px; }
+   .env-copy.backup-btn { margin-top: 0; }
+   .visibility-btn { float: right; border: 0; background: transparent; color: var(--green-dark); font-size: 11px; font-weight: 900; }
+   .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px #d8f3e4; }
+   .page { width: min(1180px, calc(100% - 44px)); margin: 0 auto; padding: 54px 0 74px; }
+   .hero { max-width: 710px; margin-bottom: 44px; }
+   .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--green-dark); font-size: 11px; font-weight: 900; letter-spacing:.18em; text-transform: uppercase; margin-bottom: 18px; }
+   .eyebrow::before { content: ""; width: 25px; height: 2px; background: var(--green); }
+    h1 { max-width: 680px; font-size: clamp(38px, 6vw, 76px); line-height:.98; letter-spacing: -.075em; font-weight: 900; }
     h1 em { color: var(--green); font-style: normal; }
-    .hero-copy { max-width: 555px; margin-top: 22px; color: var(--muted); font-size: 17px; line-height: 1.65; }
-    .view { display: none; }
-    .view.active { display: block; animation: rise .35s ease both; }
+   .hero-copy { max-width: 555px; margin-top: 22px; color: var(--muted); font-size: 17px; line-height: 1.65; }
+   .view { display: none; }
+   .view.active { display: block; animation: rise.35s ease both; }
     @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 850px; }
-    .method-card { position: relative; min-height: 270px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; border: 1px solid var(--line); border-radius: 26px; background: var(--card); box-shadow: var(--shadow); text-align: left; transition: transform .2s, border-color .2s, box-shadow .2s; }
-    .method-card:hover { transform: translateY(-5px); border-color: #89d6ad; box-shadow: 0 30px 80px rgba(28,69,52,.18); }
-    .method-number { position: absolute; top: 24px; right: 25px; color: #aabcb2; font-size: 12px; font-weight: 900; }
-    .method-icon { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; background: var(--mint); color: var(--green-dark); font-size: 25px; margin-bottom: 26px; }
-    .method-card h2 { font-size: 22px; letter-spacing: -.04em; margin-bottom: 10px; }
-    .method-card p { color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 280px; }
-    .method-link { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 25px; color: var(--green-dark); font-size: 13px; font-weight: 900; }
-    .method-link span { transition: transform .2s; }
-    .method-card:hover .method-link span { transform: translateX(4px); }
-    .feature-strip { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 32px; color: var(--muted); font-size: 12px; font-weight: 700; }
-    .feature-strip span { display: flex; align-items: center; gap: 7px; }
-    .feature-strip b { color: var(--green); font-size: 16px; }
-    .flow-layout { max-width: 820px; }
-    .flow-head { display: flex; align-items: center; gap: 15px; margin-bottom: 22px; }
-    .back-btn { border: 0; background: transparent; color: var(--muted); font-size: 13px; font-weight: 800; }
-    .back-btn:hover { color: var(--green-dark); }
-    .flow-label { color: var(--green-dark); font-size: 12px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
-    .panel { border: 1px solid var(--line); border-radius: 26px; background: var(--card); box-shadow: var(--shadow); padding: clamp(24px, 5vw, 42px); }
-    .stepbar { display: flex; gap: 7px; margin-bottom: 30px; }
-    .stepbar i { width: 54px; height: 5px; border-radius: 5px; background: #dce7df; }
-    .stepbar i.on { background: var(--green); }
-    .panel h2 { font-size: clamp(24px, 4vw, 36px); line-height: 1.05; letter-spacing: -.06em; margin-bottom: 12px; }
-    .panel-intro { color: var(--muted); line-height: 1.65; font-size: 15px; max-width: 540px; }
-    .field-label { display: block; margin: 26px 0 8px; color: var(--ink); font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
-    .phone-field { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 13px; background: #fbfdfb; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
-    .phone-field:focus-within { border-color: var(--green); box-shadow: 0 0 0 4px #dff7e9; }
-    .phone-prefix { padding: 15px 0 15px 16px; color: var(--green-dark); font-weight: 900; }
+   .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; max-width: 850px; }
+   .method-card { position: relative; min-height: 270px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; border: 1px solid var(--line); border-radius: 26px; background: var(--card); box-shadow: var(--shadow); text-align: left; transition: transform.2s, border-color.2s, box-shadow.2s; }
+   .method-card:hover { transform: translateY(-5px); border-color: #89d6ad; box-shadow: 0 30px 80px rgba(28,69,52,.18); }
+   .method-number { position: absolute; top: 24px; right: 25px; color: #aabcb2; font-size: 12px; font-weight: 900; }
+   .method-icon { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; background: var(--mint); color: var(--green-dark); font-size: 25px; margin-bottom: 26px; }
+   .method-card h2 { font-size: 22px; letter-spacing: -.04em; margin-bottom: 10px; }
+   .method-card p { color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 280px; }
+   .method-link { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 25px; color: var(--green-dark); font-size: 13px; font-weight: 900; }
+   .method-link span { transition: transform.2s; }
+   .method-card:hover.method-link span { transform: translateX(4px); }
+   .feature-strip { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 32px; color: var(--muted); font-size: 12px; font-weight: 700; }
+   .feature-strip span { display: flex; align-items: center; gap: 7px; }
+   .feature-strip b { color: var(--green); font-size: 16px; }
+   .flow-layout { max-width: 820px; }
+   .flow-head { display: flex; align-items: center; gap: 15px; margin-bottom: 22px; }
+   .back-btn { border: 0; background: transparent; color: var(--muted); font-size: 13px; font-weight: 800; }
+   .back-btn:hover { color: var(--green-dark); }
+   .flow-label { color: var(--green-dark); font-size: 12px; font-weight: 900; letter-spacing:.13em; text-transform: uppercase; }
+   .panel { border: 1px solid var(--line); border-radius: 26px; background: var(--card); box-shadow: var(--shadow); padding: clamp(24px, 5vw, 42px); }
+   .stepbar { display: flex; gap: 7px; margin-bottom: 30px; }
+   .stepbar i { width: 54px; height: 5px; border-radius: 5px; background: #dce7df; }
+   .stepbar i.on { background: var(--green); }
+   .panel h2 { font-size: clamp(24px, 4vw, 36px); line-height: 1.05; letter-spacing: -.06em; margin-bottom: 12px; }
+   .panel-intro { color: var(--muted); line-height: 1.65; font-size: 15px; max-width: 540px; }
+   .field-label { display: block; margin: 26px 0 8px; color: var(--ink); font-size: 12px; font-weight: 900; letter-spacing:.08em; text-transform: uppercase; }
+   .phone-field { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 13px; background: #fbfdfb; overflow: hidden; transition: border-color.2s, box-shadow.2s; }
+   .phone-field:focus-within { border-color: var(--green); box-shadow: 0 0 0 4px #dff7e9; }
+   .phone-prefix { padding: 15px 0 15px 16px; color: var(--green-dark); font-weight: 900; }
     input[type=tel] { width: 100%; padding: 15px 16px 15px 8px; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 16px; }
-    .hint { color: var(--muted); font-size: 12px; margin-top: 9px; }
-    .primary-btn { width: 100%; margin-top: 22px; padding: 16px 20px; border: 0; border-radius: 13px; background: var(--ink); color: #fff; font-weight: 900; transition: transform .2s, background .2s; }
-    .primary-btn:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-2px); }
-    .primary-btn:disabled { cursor: not-allowed; opacity: .5; }
-    .ghost-btn { width: 100%; margin-top: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 13px; background: transparent; color: var(--muted); font-weight: 800; }
-    .ghost-btn:hover { border-color: var(--green); color: var(--green-dark); }
-    .status-box { display: none; margin-top: 15px; padding: 13px 15px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
-    .status-box.loading { display: block; background: var(--mint); color: var(--green-dark); }
-    .status-box.error { display: block; background: #fff0f0; color: var(--danger); }
-    .spinner { display: inline-block; width: 14px; height: 14px; margin-right: 8px; vertical-align: -2px; border: 2px solid #a9dfc0; border-top-color: var(--green-dark); border-radius: 50%; animation: spin .7s linear infinite; }
+   .hint { color: var(--muted); font-size: 12px; margin-top: 9px; }
+   .primary-btn { width: 100%; margin-top: 22px; padding: 16px 20px; border: 0; border-radius: 13px; background: var(--ink); color: #fff; font-weight: 900; transition: transform.2s, background.2s; }
+   .primary-btn:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-2px); }
+   .primary-btn:disabled { cursor: not-allowed; opacity:.5; }
+   .ghost-btn { width: 100%; margin-top: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 13px; background: transparent; color: var(--muted); font-weight: 800; }
+   .ghost-btn:hover { border-color: var(--green); color: var(--green-dark); }
+   .status-box { display: none; margin-top: 15px; padding: 13px 15px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
+   .status-box.loading { display: block; background: var(--mint); color: var(--green-dark); }
+   .status-box.error { display: block; background: #fff0f0; color: var(--danger); }
+   .spinner { display: inline-block; width: 14px; height: 14px; margin-right: 8px; vertical-align: -2px; border: 2px solid #a9dfc0; border-top-color: var(--green-dark); border-radius: 50%; animation: spin.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .qr-stage { min-height: 300px; display: grid; place-items: center; padding: 22px; margin: 22px 0; border: 1px dashed #b8d5c3; border-radius: 18px; background: #f9fcf8; }
-    .qr-wrap { padding: 15px; border-radius: 14px; background: #fff; box-shadow: 0 10px 30px rgba(28,69,52,.1); }
+   .qr-stage { min-height: 300px; display: grid; place-items: center; padding: 22px; margin: 22px 0; border: 1px dashed #b8d5c3; border-radius: 18px; background: #f9fcf8; }
+   .qr-wrap { padding: 15px; border-radius: 14px; background: #fff; box-shadow: 0 10px 30px rgba(28,69,52,.1); }
     #qrCanvas { display: block; }
-    .qr-placeholder { display: flex; flex-direction: column; align-items: center; color: var(--muted); font-size: 13px; }
-    .code-display { margin: 28px 0; padding: 25px; border-radius: 17px; background: var(--ink); color: var(--lime); text-align: center; font: 900 clamp(28px, 8vw, 48px)/1 'Courier New', monospace; letter-spacing: .13em; }
-    .instructions { display: grid; gap: 12px; list-style: none; margin-top: 24px; }
-    .instructions li { display: flex; gap: 11px; color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .instructions b { flex: 0 0 23px; height: 23px; display: grid; place-items: center; border-radius: 50%; background: var(--mint); color: var(--green-dark); font-size: 11px; }
-    .waiting { margin-top: 24px; color: var(--green-dark); font-size: 13px; font-weight: 800; }
-    .success-mark { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; background: var(--mint); color: var(--green-dark); font-size: 28px; margin-bottom: 20px; }
-    .session-box { margin-top: 25px; padding: 17px; border: 1px solid #b8e8ca; border-radius: 17px; background: #f4fcf6; }
-    .session-box-head { display: flex; justify-content: space-between; color: var(--green-dark); font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
-    .session-value { width: 100%; min-height: 110px; resize: vertical; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); font: 12px/1.55 "Courier New", monospace; word-break: break-all; outline: 0; }
-    .copy-btn { width: 100%; margin-top: 10px; padding: 14px; border: 0; border-radius: 10px; background: var(--green); color: #fff; font-weight: 900; }
-    .copy-btn:hover { background: var(--green-dark); }
-    .copy-btn.copied { background: var(--ink); }
-    .backup-btn { width: 100%; margin-top: 10px; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--muted); font-size: 12px; font-weight: 800; }
-    .backup-btn:hover { border-color: var(--green); color: var(--green-dark); }
-    .warning { margin-top: 18px; padding: 14px; border-radius: 11px; background: #fff7e9; color: #8a611e; font-size: 12px; line-height: 1.55; }
+   .qr-placeholder { display: flex; flex-direction: column; align-items: center; color: var(--muted); font-size: 13px; }
+   .code-display { margin: 28px 0; padding: 25px; border-radius: 17px; background: var(--ink); color: var(--lime); text-align: center; font: 900 clamp(28px, 8vw, 48px)/1 'Courier New', monospace; letter-spacing:.13em; }
+   .instructions { display: grid; gap: 12px; list-style: none; margin-top: 24px; }
+   .instructions li { display: flex; gap: 11px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+   .instructions b { flex: 0 0 23px; height: 23px; display: grid; place-items: center; border-radius: 50%; background: var(--mint); color: var(--green-dark); font-size: 11px; }
+   .waiting { margin-top: 24px; color: var(--green-dark); font-size: 13px; font-weight: 800; }
+   .success-mark { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; background: var(--mint); color: var(--green-dark); font-size: 28px; margin-bottom: 20px; }
+   .session-box { margin-top: 25px; padding: 17px; border: 1px solid #b8e8ca; border-radius: 17px; background: #f4fcf6; }
+   .session-box-head { display: flex; justify-content: space-between; color: var(--green-dark); font-size: 11px; font-weight: 900; letter-spacing:.12em; text-transform: uppercase; margin-bottom: 10px; }
+   .session-value { width: 100%; min-height: 110px; resize: vertical; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); font: 12px/1.55 "Courier New", monospace; word-break: break-all; outline: 0; }
+   .copy-btn { width: 100%; margin-top: 10px; padding: 14px; border: 0; border-radius: 10px; background: var(--green); color: #fff; font-weight: 900; }
+   .copy-btn:hover { background: var(--green-dark); }
+   .copy-btn.copied { background: var(--ink); }
+   .backup-btn { width: 100%; margin-top: 10px; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--muted); font-size: 12px; font-weight: 800; }
+   .backup-btn:hover { border-color: var(--green); color: var(--green-dark); }
+   .warning { margin-top: 18px; padding: 14px; border-radius: 11px; background: #fff7e9; color: #8a611e; font-size: 12px; line-height: 1.55; }
     footer { width: min(1180px, calc(100% - 44px)); margin: 0 auto; padding: 20px 0 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
     footer a { color: var(--green-dark); font-weight: 800; text-decoration: none; }
     @media (max-width: 680px) {
-      .topbar, .page, footer { width: min(100% - 28px, 1180px); }
-      .topbar { padding: 19px 0; }
-      .status-chip { display: none; }
-      .page { padding: 34px 0 52px; }
-      .hero { margin-bottom: 30px; }
+     .topbar,.page, footer { width: min(100% - 28px, 1180px); }
+     .topbar { padding: 19px 0; }
+     .status-chip { display: none; }
+     .page { padding: 34px 0 52px; }
+     .hero { margin-bottom: 30px; }
       h1 { font-size: 45px; }
-      .hero-copy { font-size: 15px; }
-      .method-grid { grid-template-columns: 1fr; }
-      .method-card { min-height: 215px; }
-      .panel { border-radius: 20px; padding: 22px; }
-      .flow-head { margin-bottom: 14px; }
+     .hero-copy { font-size: 15px; }
+     .method-grid { grid-template-columns: 1fr; }
+     .method-card { min-height: 215px; }
+     .panel { border-radius: 20px; padding: 22px; }
+     .flow-head { margin-bottom: 14px; }
     }
   </style>
 </head>
@@ -201,7 +201,7 @@
     <header class="topbar">
       <a class="brand" href="#" onclick="goLanding(); return false;">
         <div class="brand-mark"><img src="/assets/favicon-64.png" alt="" /></div>
-        <div class="brand-name"><strong id="publicSiteName">DARATECH BOT V2</strong><span>SESSION STUDIO</span></div>
+        <div class="brand-name"><strong id="publicSiteName">M-KING BOT V1</strong><span>SESSION STUDIO</span></div>
       </a>
       <div class="top-actions"><a class="utility-btn" href="/api">API Docs</a><button class="utility-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">☾</button><div class="status-chip"><i class="status-dot"></i> Secure session generator</div></div>
     </header>
@@ -210,7 +210,7 @@
       <section class="hero">
         <div class="eyebrow">WhatsApp connection made simple</div>
         <h1 id="heroTitle">Your session.<br /><em>Your control.</em></h1>
-        <p class="hero-copy">Generate a secure DARATECH BOT V2 session ID in seconds. Choose the connection method that works best for you.</p>
+        <p class="hero-copy">Generate a secure M-KING BOT V1 session ID in seconds. Choose the connection method that works best for you.</p>
       </section>
 
       <section class="view active" id="view-landing">
@@ -223,7 +223,7 @@
           </button>
         </div>
         <div class="feature-strip"><span><b>✓</b> No session data stored</span><span><b>✓</b> Copy-ready output</span><span><b>✓</b> Works on mobile</span></div>
-        <div class="install-banner" id="installBanner"><span>Install DARATECH BOT V2 for faster access.</span><button onclick="installApp()">Install app</button></div>
+        <div class="install-banner" id="installBanner"><span>Install M-KING BOT V1 for faster access.</span><button onclick="installApp()">Install app</button></div>
         <div class="status-panel" id="statusPanel"></div>
         <section class="content-section" id="guide"><h2>How it works</h2><p>Choose a method, connect your WhatsApp, then copy the generated value into your bot environment.</p><div class="guide-grid"><div class="guide-card"><b>1 · Choose</b><p>Use QR for a camera scan or Pair Code when you prefer typing a short code.</p></div><div class="guide-card"><b>2 · Connect</b><p>Follow the WhatsApp prompts while this page keeps your connection active.</p></div><div class="guide-card"><b>3 · Copy</b><p>Copy the session ID and add it to your bot's <strong>SESSION_ID=</strong> variable.</p></div></div></section>
         <section class="content-section" id="faq"><h2>Common questions</h2><div class="faq-list"><details><summary>Is my session ID stored?</summary><p>No. The in-memory session record expires automatically and is never written to a database.</p></details><details><summary>Which method should I use?</summary><p>QR is fastest when you have access to your phone camera. Pair Code is useful when scanning is inconvenient.</p></details><details><summary>What if the code expires?</summary><p>Start again and generate a fresh QR or Pair Code. Old temporary files are cleaned up automatically.</p></details></div></section>
@@ -245,55 +245,52 @@
         </div>
       </section>
     </main>
-    <footer>Built for <a href="https://github.com/adtelecominfo-png" target="_blank" rel="noreferrer">DARATECH</a> · Keep your session ID private.</footer>
+    <footer>Built for <a href="https://github.com" target="_blank" rel="noreferrer">M-KING BOT V1</a> · Owner Mursalin King · Keep your session ID private.</footer>
   </div>
 
   <script>
     let qrSessionKey = null, qrPollTimer = null, qrEncoded = '', qrDecoded = '', qrSeconds = 60, qrTimer = null;
     let pairSessionKey = null, pairPollTimer = null, pairEncoded = '', pairDecoded = '';
     let deferredInstallPrompt = null;
-    const translations = { en: { hero: 'WhatsApp connection made simple', copy: 'Generate a secure DARATECH BOT V2 session ID in seconds. Choose the connection method that works best for you.' }, fr: { hero: 'Connexion WhatsApp simplifiée', copy: 'Générez votre identifiant de session DARATECH BOT V2 en quelques secondes.' }, ha: { hero: 'Haɗin WhatsApp cikin sauƙi', copy: 'Ƙirƙiri session ID na DARATECH BOT V2 cikin daƙiƙu.' } };
+    const translations = { en: { hero: 'WhatsApp connection made simple', copy: 'Generate a secure M-KING BOT V1 session ID in seconds. Choose the connection method that works best for you.' } };
     function showView(id) { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     function goLanding() { stopQRPoll(); stopPairPoll(); stopQRCountdown(); qrSessionKey = null; qrEncoded = ''; qrDecoded = ''; pairSessionKey = null; pairEncoded = ''; pairDecoded = ''; showView('view-landing'); }
     function goQR() { resetQRCards(); showView('view-qr'); }
     function goPair() { resetPairCards(); showView('view-pair'); }
-    function showQRCard(id) { ['qr-step1','qr-step2','qr-step3'].forEach(c => document.getElementById(c).style.display = c === id ? 'block' : 'none'); }
-    function showPairCard(id) { ['pair-step1','pair-step2','pair-step3'].forEach(c => document.getElementById(c).style.display = c === id ? 'block' : 'none'); }
-    function resetQRCards() { showQRCard('qr-step1'); setStatus('qrStatusBox','', ''); const b = document.getElementById('qrStartBtn'); b.disabled = false; b.textContent = 'Generate QR code  →'; }
+    function showQRCard(id) { ['qr-step1','qr-step2','qr-step3'].forEach(c => document.getElementById(c).style.display = c === id? 'block' : 'none'); }
+    function showPairCard(id) { ['pair-step1','pair-step2','pair-step3'].forEach(c => document.getElementById(c).style.display = c === id? 'block' : 'none'); }
+    function resetQRCards() { showQRCard('qr-step1'); setStatus('qrStatusBox','', ''); const b = document.getElementById('qrStartBtn'); b.disabled = false; b.textContent = 'Generate QR code →'; }
     function resetQR() { stopQRPoll(); stopQRCountdown(); qrSessionKey = null; qrEncoded = ''; resetQRCards(); document.getElementById('qrRetryBtn').classList.remove('show'); }
-    async function startQR() { const b = document.getElementById('qrStartBtn'); document.getElementById('qrRetryBtn').classList.remove('show'); b.disabled = true; b.textContent = 'Connecting…'; setStatus('qrStatusBox','Connecting to WhatsApp servers…','loading'); try { const r = await fetch('/qr/start',{method:'POST'}), d = await r.json(); if (!d.sessionKey) throw new Error('Could not start QR session.'); qrSessionKey = d.sessionKey; showQRCard('qr-step2'); startQRCountdown(); startQRPoll(); } catch(e) { setStatus('qrStatusBox','Could not connect. Please try again.','error'); b.disabled = false; b.textContent = 'Generate QR code  →'; } }
+    async function startQR() { const b = document.getElementById('qrStartBtn'); document.getElementById('qrRetryBtn').classList.remove('show'); b.disabled = true; b.textContent = 'Connecting…'; setStatus('qrStatusBox','Connecting to WhatsApp servers…','loading'); try { const r = await fetch('/qr/start',{method:'POST'}), d = await r.json(); if (!d.sessionKey) throw new Error('Could not start QR session.'); qrSessionKey = d.sessionKey; showQRCard('qr-step2'); startQRCountdown(); startQRPoll(); } catch(e) { setStatus('qrStatusBox','Could not connect. Please try again.','error'); b.disabled = false; b.textContent = 'Generate QR code →'; } }
     function startQRPoll() { stopQRPoll(); qrPollTimer = setInterval(pollQR,2000); pollQR(); }
     function stopQRPoll() { if (qrPollTimer) { clearInterval(qrPollTimer); qrPollTimer = null; } }
     async function pollQR() { if (!qrSessionKey) return stopQRPoll(); try { const d = await (await fetch('/qr/poll/'+qrSessionKey)).json(); if (d.status === 'qr') renderQR(d.qr,d.qrDataUrl); else if (d.status === 'connected') showQRLoading('Connected. Building your session…'); else if (d.status === 'done') { stopQRPoll(); stopQRCountdown(); qrEncoded = d.encoded || ''; qrDecoded = d.decoded || ''; document.getElementById('qrSessionValue').value = qrEncoded; document.getElementById('qrCredsValue').value = qrDecoded; showQRCard('qr-step3'); } else if (d.status === 'expired') { stopQRPoll(); stopQRCountdown(); document.getElementById('qrRetryBtn').classList.add('show'); showQRLoading('QR expired. Generate a new one.'); } else if (d.status === 'error') { stopQRPoll(); stopQRCountdown(); document.getElementById('qrRetryBtn').classList.add('show'); showQRLoading(d.message || 'Something went wrong.'); } } catch (_) {} }
     function renderQR(qrString, dataUrl) { const canvas = document.getElementById('qrCanvas'), placeholder = document.getElementById('qrPlaceholder'); if (dataUrl) { const image = new Image(); image.onload = () => { canvas.width = 220; canvas.height = 220; canvas.getContext('2d').drawImage(image,0,0,220,220); placeholder.style.display='none'; canvas.style.display='block'; }; image.onerror = () => renderQRFromString(qrString,canvas,placeholder); image.src = dataUrl; } else renderQRFromString(qrString,canvas,placeholder); }
     function renderQRFromString(qrString,canvas,placeholder) { if (!qrString || typeof QRCode === 'undefined') return showQRLoading('QR unavailable. Please start over.'); QRCode.toCanvas(canvas,qrString,{width:220,margin:1,color:{dark:'#10251e',light:'#ffffff'}},e => { if (!e) { placeholder.style.display='none'; canvas.style.display='block'; } }); }
-    function startQRCountdown() { stopQRCountdown(); qrSeconds = 60; updateQRCountdown(); qrTimer = setInterval(() => { qrSeconds -= 1; updateQRCountdown(); if (qrSeconds <= 0) { stopQRCountdown(); stopQRPoll(); document.getElementById('qrRetryBtn').classList.add('show'); showQRLoading('Refreshing your QR code…'); setTimeout(() => { if (document.getElementById('qr-step2').style.display !== 'none') { qrSessionKey = null; startQR(); } }, 1200); } }, 1000); }
+    function startQRCountdown() { stopQRCountdown(); qrSeconds = 60; updateQRCountdown(); qrTimer = setInterval(() => { qrSeconds -= 1; updateQRCountdown(); if (qrSeconds <= 0) { stopQRCountdown(); stopQRPoll(); document.getElementById('qrRetryBtn').classList.add('show'); showQRLoading('Refreshing your QR code…'); setTimeout(() => { if (document.getElementById('qr-step2').style.display!== 'none') { qrSessionKey = null; startQR(); } }, 1200); } }, 1000); }
     function stopQRCountdown() { if (qrTimer) { clearInterval(qrTimer); qrTimer = null; } }
-    function updateQRCountdown() { const el = document.getElementById('qrTimer'); if (el) el.textContent = qrSeconds > 0 ? '⏱ QR expires in ' + qrSeconds + 's' : '⏱ QR expired'; }
+    function updateQRCountdown() { const el = document.getElementById('qrTimer'); if (el) el.textContent = qrSeconds > 0? '⏱ QR expires in ' + qrSeconds + 's' : '⏱ QR expired'; }
     function showQRLoading(msg) { const p=document.getElementById('qrPlaceholder'), c=document.getElementById('qrCanvas'); c.style.display='none'; p.style.display='flex'; p.innerHTML='<span class="spinner" style="width:28px;height:28px"></span><span>'+msg+'</span>'; }
-    function resetPairCards() { showPairCard('pair-step1'); document.getElementById('phoneInput').value=''; const b=document.getElementById('getCodeBtn'); b.disabled=false; b.textContent='Get pairing code  →'; setStatus('pairStatusBox','', ''); }
+    function resetPairCards() { showPairCard('pair-step1'); document.getElementById('phoneInput').value=''; const b=document.getElementById('getCodeBtn'); b.disabled=false; b.textContent='Get pairing code →'; setStatus('pairStatusBox','', ''); }
     function resetPair() { stopPairPoll(); pairSessionKey=null; pairEncoded=''; resetPairCards(); }
-    async function getCode() { const number=document.getElementById('phoneInput').value.trim().replace(/\D/g,''); if (!number || number.length<7) return setStatus('pairStatusBox','Enter a valid number with country code.','error'); const b=document.getElementById('getCodeBtn'), refresh=document.getElementById('newCodeBtn'); b.disabled=true; if (refresh) refresh.disabled=true; b.textContent='Generating…'; try { stopPairPoll(); pairSessionKey=null; const d=await (await fetch('/code?number='+encodeURIComponent(number))).json(); if (!d.code) throw new Error(d.error || 'Could not generate a pairing code.'); const raw=d.code.replace(/\s/g,''); document.getElementById('codeDisplay').textContent=raw.length===8 ? raw.slice(0,4)+' '+raw.slice(4) : raw; pairSessionKey=d.sessionKey; showPairCard('pair-step2'); startPairPoll(); } catch(e) { setStatus('pairStatusBox',e.message || 'Could not generate a code.','error'); } finally { b.disabled=false; b.textContent='Get pairing code  →'; if (refresh) refresh.disabled=false; } }
+    async function getCode() { const number=document.getElementById('phoneInput').value.trim().replace(/\D/g,''); if (!number || number.length<7) return setStatus('pairStatusBox','Enter a valid number with country code.','error'); const b=document.getElementById('getCodeBtn'), refresh=document.getElementById('newCodeBtn'); b.disabled=true; if (refresh) refresh.disabled=true; b.textContent='Generating…'; try { stopPairPoll(); pairSessionKey=null; const d=await (await fetch('/code?number='+encodeURIComponent(number))).json(); if (!d.code) throw new Error(d.error || 'Could not generate a pairing code.'); const raw=d.code.replace(/\s/g,''); document.getElementById('codeDisplay').textContent=raw.length===8? raw.slice(0,4)+' '+raw.slice(4) : raw; pairSessionKey=d.sessionKey; showPairCard('pair-step2'); startPairPoll(); } catch(e) { setStatus('pairStatusBox',e.message || 'Could not generate a code.','error'); } finally { b.disabled=false; b.textContent='Get pairing code →'; if (refresh) refresh.disabled=false; } }
     function getNewCode() { getCode(); }
     function startPairPoll() { stopPairPoll(); pairPollTimer=setInterval(pollPair,3000); }
     function stopPairPoll() { if (pairPollTimer) { clearInterval(pairPollTimer); pairPollTimer=null; } }
     async function pollPair() { if (!pairSessionKey) return stopPairPoll(); try { const d=await (await fetch('/code/poll/'+pairSessionKey)).json(); if (d.done) { stopPairPoll(); pairEncoded=d.encoded || ''; pairDecoded=d.decoded || ''; document.getElementById('pairSessionValue').value=pairEncoded; document.getElementById('pairCredsValue').value=pairDecoded; showPairCard('pair-step3'); } else if (d.expired) stopPairPoll(); } catch (_) {} }
     async function copySession(flow) { const value=flow==='qr'?qrEncoded:pairEncoded, button=document.getElementById(flow==='qr'?'qrCopyBtn':'pairCopyBtn'); if (!value) return; try { await navigator.clipboard.writeText(value); } catch (_) { const t=document.getElementById(flow==='qr'?'qrSessionValue':'pairSessionValue'); t.focus(); t.select(); document.execCommand('copy'); } button.textContent='Copied ✓'; button.classList.add('copied'); setTimeout(()=>{button.textContent='Copy SESSION_ID';button.classList.remove('copied');},2200); }
-    async function copyEnv(flow) { const value = flow === 'qr' ? qrEncoded : pairEncoded; if (!value) return; const text = 'SESSION_ID=' + value; try { await navigator.clipboard.writeText(text); } catch (_) { const helper = document.createElement('textarea'); helper.value = text; document.body.appendChild(helper); helper.select(); document.execCommand('copy'); helper.remove(); } }
-    function toggleSecret(id, button) { const area = document.getElementById(id); area.dataset.hidden = area.dataset.hidden !== 'true' ? 'true' : 'false'; if (area.dataset.hidden === 'true') { area.dataset.real = area.value; area.value = '•'.repeat(Math.min(area.dataset.real.length, 180)); button.textContent = 'Show'; } else { area.value = area.dataset.real || area.value; button.textContent = 'Hide'; } }
+    async function copyEnv(flow) { const value = flow === 'qr'? qrEncoded : pairEncoded; if (!value) return; const text = 'SESSION_ID=' + value; try { await navigator.clipboard.writeText(text); } catch (_) { const helper = document.createElement('textarea'); helper.value = text; document.body.appendChild(helper); helper.select(); document.execCommand('copy'); helper.remove(); } }
+    function toggleSecret(id, button) { const area = document.getElementById(id); area.dataset.hidden = area.dataset.hidden!== 'true'? 'true' : 'false'; if (area.dataset.hidden === 'true') { area.dataset.real = area.value; area.value = '•'.repeat(Math.min(area.dataset.real.length, 180)); button.textContent = 'Show'; } else { area.value = area.dataset.real || area.value; button.textContent = 'Hide'; } }
     function copyCreds(flow) { const value=flow==='qr'?qrDecoded:pairDecoded; if (!value) return; const area=document.getElementById(flow==='qr'?'qrCredsValue':'pairCredsValue'); area.focus(); area.select(); document.execCommand('copy'); }
-    function downloadSession(flow, type='session') { const encoded=flow==='qr'?qrEncoded:pairEncoded, decoded=flow==='qr'?qrDecoded:pairDecoded; const content=type==='creds'?decoded:encoded; if (!content) return; const blob=new Blob([content],{type:type==='creds'?'application/json;charset=utf-8':'text/plain;charset=utf-8'}), a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=type==='creds'?'creds.json':'daratech-bot-v2-session-'+flow+'.txt'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href); }
+    function downloadSession(flow, type='session') { const encoded=flow==='qr'?qrEncoded:pairEncoded, decoded=flow==='qr'?qrDecoded:pairDecoded; const content=type==='creds'?decoded:encoded; if (!content) return; const blob=new Blob([content],{type:type==='creds'?'application/json;charset=utf-8':'text/plain;charset=utf-8'}), a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=type==='creds'?'creds.json':'mking-bot-v1-session-'+flow+'.txt'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(a.href); }
     function setStatus(id,msg,type) { const box=document.getElementById(id); if (!type) { box.className='status-box'; box.textContent=''; return; } box.className='status-box '+type; box.innerHTML=type==='loading'?'<span class="spinner"></span>'+msg:msg; }
     document.getElementById('phoneInput').addEventListener('input',e=>e.target.value=e.target.value.replace(/[^\d]/g,''));
     document.getElementById('phoneInput').addEventListener('keydown',e=>{if(e.key==='Enter')getCode();});
-    function toggleTheme() { document.body.classList.toggle('dark'); localStorage.setItem('daratech-theme', document.body.classList.contains('dark') ? 'dark' : 'light'); document.getElementById('themeBtn').textContent = document.body.classList.contains('dark') ? '☀' : '☾'; }
-    function setLanguage(lang) { localStorage.setItem('daratech-language', lang); const t = translations[lang] || translations.en; document.querySelector('.eyebrow').textContent = t.hero; document.querySelector('.hero-copy').textContent = t.copy; }
+    function toggleTheme() { document.body.classList.toggle('dark'); localStorage.setItem('mking-theme', document.body.classList.contains('dark')? 'dark' : 'light'); document.getElementById('themeBtn').textContent = document.body.classList.contains('dark')? '☀' : '☾'; }
     async function checkStatus() { const panel = document.getElementById('statusPanel'); panel.className = 'status-panel show'; panel.innerHTML = '<strong>Checking service…</strong><p>Please wait.</p>'; try { const data = await (await fetch('/status')).json(); panel.className = 'status-panel show ok'; panel.innerHTML = '<strong>✓ Service operational</strong><p>' + data.message + '</p>'; } catch (_) { panel.className = 'status-panel show fail'; panel.innerHTML = '<strong>Service unavailable</strong><p>Try again in a moment.</p>'; } }
     window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; document.getElementById('installBanner').classList.add('show'); });
     async function installApp() { if (!deferredInstallPrompt) return; deferredInstallPrompt.prompt(); await deferredInstallPrompt.userChoice; deferredInstallPrompt = null; document.getElementById('installBanner').classList.remove('show'); }
-    if (localStorage.getItem('daratech-theme') === 'dark') toggleTheme();
-    setLanguage(localStorage.getItem('daratech-language') || 'en');
-    fetch('/site-config').then(r => r.json()).then(config => { document.title = config.siteName + ' — Session Generator'; document.getElementById('publicSiteName').textContent = config.siteName; document.querySelector('.hero-copy').textContent = config.tagline + ' Generate a secure session ID in seconds.'; }).catch(() => {});
+    if (localStorage.getItem('mking-theme') === 'dark') toggleTheme();
   </script>
 </body>
 </html>
