@@ -5,17 +5,18 @@ const { Pool } = require('pg');
 const dataDir = path.join(__dirname, 'data');
 const configPath = path.join(dataDir, 'site-config.json');
 const defaults = {
-  siteName: 'DARATECH BOT V2',
-  tagline: 'Your session. Your control.',
+  siteName: 'M-KING BOT V1',
+  tagline: 'By Mursalin-King 👑 | Your session. Your control.',
   maintenance: false
 };
 
 let pool = null;
-let current = { ...defaults };
+let current = {...defaults };
 
 function sanitize(next) {
   const requestedName = String(next.siteName || defaults.siteName).trim();
-  const siteName = requestedName === 'DARATECH V2' ? defaults.siteName : requestedName;
+  // Purana Daratech naam aaye to auto M-KING bana do
+  const siteName = requestedName.includes('DARATECH')? defaults.siteName : requestedName;
   return {
     siteName: siteName.slice(0, 60) || defaults.siteName,
     tagline: String(next.tagline || defaults.tagline).trim().slice(0, 120) || defaults.tagline,
@@ -24,8 +25,8 @@ function sanitize(next) {
 }
 
 function readLocal() {
-  try { return sanitize({ ...defaults, ...JSON.parse(fs.readFileSync(configPath, 'utf8')) }); }
-  catch (_) { return { ...defaults }; }
+  try { return sanitize({...defaults,...JSON.parse(fs.readFileSync(configPath, 'utf8')) }); }
+  catch (_) { return {...defaults }; }
 }
 
 function writeLocal(next) {
@@ -44,12 +45,12 @@ async function init() {
 
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_SSL === 'disable' ? false : { rejectUnauthorized: false },
+    ssl: process.env.DATABASE_SSL === 'disable'? false : { rejectUnauthorized: false },
     max: 5,
     idleTimeoutMillis: 30000
   });
   await pool.query(`
-    CREATE TABLE IF NOT EXISTS daratech_site_settings (
+    CREATE TABLE IF NOT EXISTS mking_site_settings (
       id INTEGER PRIMARY KEY,
       site_name VARCHAR(60) NOT NULL,
       tagline VARCHAR(120) NOT NULL,
@@ -57,31 +58,31 @@ async function init() {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `);
-  const result = await pool.query('SELECT site_name, tagline, maintenance FROM daratech_site_settings WHERE id = 1');
+  const result = await pool.query('SELECT site_name, tagline, maintenance FROM mking_site_settings WHERE id = 1');
   if (result.rowCount === 0) {
-    current = { ...defaults };
-    await pool.query('INSERT INTO daratech_site_settings (id, site_name, tagline, maintenance) VALUES (1, $1, $2, $3)', [current.siteName, current.tagline, current.maintenance]);
+    current = {...defaults };
+    await pool.query('INSERT INTO mking_site_settings (id, site_name, tagline, maintenance) VALUES (1, $1, $2, $3)', [current.siteName, current.tagline, current.maintenance]);
   } else {
     current = sanitize({ siteName: result.rows[0].site_name, tagline: result.rows[0].tagline, maintenance: result.rows[0].maintenance });
   }
-  console.log('✅ Admin settings database connected');
+  console.log('✅ M-KING Admin settings database connected');
   return current;
 }
 
-function read() { return { ...current }; }
+function read() { return {...current }; }
 
 async function write(next) {
   const safe = sanitize(next);
   if (!pool) {
     current = writeLocal(safe);
-    return { ...current };
+    return {...current };
   }
   const result = await pool.query(
-    `UPDATE daratech_site_settings SET site_name = $1, tagline = $2, maintenance = $3, updated_at = NOW() WHERE id = 1 RETURNING site_name, tagline, maintenance`,
+    `UPDATE mking_site_settings SET site_name = $1, tagline = $2, maintenance = $3, updated_at = NOW() WHERE id = 1 RETURNING site_name, tagline, maintenance`,
     [safe.siteName, safe.tagline, safe.maintenance]
   );
   current = sanitize({ siteName: result.rows[0].site_name, tagline: result.rows[0].tagline, maintenance: result.rows[0].maintenance });
-  return { ...current };
+  return {...current };
 }
 
 async function close() { if (pool) await pool.end(); }
