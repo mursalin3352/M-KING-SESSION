@@ -1,6 +1,6 @@
-# DARATECH BOT V2 — Session ID Generator
+# M-KING-BOT V1 — Session ID Generator
 
-A web app that generates your WhatsApp `SESSION_ID` for DARATECH BOT V2 using QR code or phone-number pairing.
+A web app that generates your WhatsApp `SESSION_ID` for M-KING BOT V1 using QR code or phone-number pairing.
 
 ---
 
@@ -23,7 +23,7 @@ A web app that generates your WhatsApp `SESSION_ID` for DARATECH BOT V2 using QR
 4. Create or attach a Render PostgreSQL database to the Web Service.
 5. Add `DATABASE_URL` using the database's **Internal Database URL**. Render exposes `PORT` automatically.
 6. Optional locally: set `DATABASE_SSL=disable` for a non-SSL local PostgreSQL server.
-7. Deploy. The app creates the `daratech_site_settings` table automatically and keeps admin branding/maintenance settings across redeploys.
+7. Deploy. The app creates the `mking_site_settings` table automatically and keeps admin branding/maintenance settings across redeploys.
 
 ---
 
@@ -64,7 +64,7 @@ session_generator/
 
 ## Notes
 
-- `SESSION_ID` generated here is plain base64 — compatible with DARATECH BOT V2's `.env` format
+- `SESSION_ID` generated here is plain base64 — compatible with M-KING-BOT-V1's `.env` format
 - Each pairing creates a temp folder under `temp/` that is deleted automatically after the session is created
 - The app does **not** store or log any session data
 
@@ -86,7 +86,7 @@ Request a code with JSON:
 ```bash
 curl -X POST https://your-render-service.onrender.com/api/pair \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber":"2348152077346"}'
+  -d '{"phoneNumber":"923292460360"}'
 ```
 
 The response includes `code`/`pairingCode`, `sessionKey`, `pollUrl`, and `expiresIn`:
